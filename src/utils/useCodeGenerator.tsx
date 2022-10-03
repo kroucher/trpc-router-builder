@@ -3,7 +3,8 @@ import { Procedure } from "../pages/generator";
 const procedureInput = (
   title: string,
   type: string,
-  arrayOf?: string
+  arrayOf?: string,
+  objectEntries: { key: string; value: string }[] = []
 ): { result: string } => {
   switch (type) {
     case "string":
@@ -30,7 +31,16 @@ const procedureInput = (
       }
     case "object":
       return {
-        result: `z.object()`,
+        result: `z.object({
+                          ${objectEntries
+                            .map(
+                              (entry) =>
+                                `${entry.key}: ${
+                                  procedureInput(title, entry.value).result
+                                },
+                          `
+                            )
+                            .join("")}})`,
       };
     default:
       return {
@@ -42,14 +52,50 @@ const procedureInput = (
 export const generateCode = ({
   routerName,
   procedures,
+  middleware,
 }: {
   routerName: string;
   procedures: Procedure[];
+  middleware: boolean;
 }) => {
+  console.log(procedures);
+  const precode = `
+import { z } from "zod";
+import { initTRPC } from '@trpc/server';
+
+export const t = initTRPC.create();
+`;
+
+  const middlware = `
+const inputSchema = z.object({ userId: z.string() });
+  
+const isUserIdChecked = t.middleware(async ({ next, rawInput, ctx }) => {
+  const result = inputSchema.safeParse(rawInput);
+  if (!result.success) {
+    throw new TRPCError({ code: 'BAD_REQUEST' });
+  }
+  const { userId } = result.data;
+  // Check user id auth
+  return next({
+    ctx: { 
+      userId,
+    },
+  });
+});
+
+export const userProtectedProcedure = t.procedure.use(isUserIdChecked);
+
+`;
+
   const code = `export const ${routerName} = t.router({
-            ${procedures
-              .map(
-                (p) => `${p.name}: t.procedure
+            ${
+              middleware
+                ? `userId: userProtectedProcedure
+                .input(inputSchema)
+                .query(({ ctx }) => ctx.userId),`
+                : `${procedures
+                    .map(
+                      (p) => `${p.name}: t.procedure
                 .input(
                     z.object({
                       ${
@@ -61,24 +107,26 @@ export const generateCode = ({
                                   procedureInput(
                                     i.title,
                                     i.inputObject.type,
-                                    i.inputObject?.arrayOf
+                                    i.inputObject?.arrayOf,
+                                    i.inputObject?.objectEntries || []
                                   ).result
                               )
                               .join(",\n                      ")
                           : ""
                       }
-                    }),
+                  }),
                 )
                 .${p.type.toLowerCase()}(${
-                  p.async ? "async " : ""
-                }({ input }) => {
+                        p.async ? "async " : ""
+                      }({ input }) => {
 
                     //Your Code Here
 
                     return {}
                 })`
-              )
-              .join(",\n           ")}
+                    )
+                    .join(",\n           ")}`
+            }
         })`;
-  return code;
+  return precode + (middleware ? middlware : "") + code;
 };

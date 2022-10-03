@@ -27,12 +27,13 @@ export type InputObject = {
   optional?: boolean;
   typeRequirements?: TypeRequirement[];
   arrayOf?: string;
+  objectEntries?: { key: string; value: string }[];
 };
 
 export type TypeRequirement = {
   name: string;
   option: TypeRequirementOption;
-  enabled: boolean;
+  enabled?: boolean;
   value: string;
 };
 
@@ -51,6 +52,7 @@ export type PresetProcedure = {
 
 const GeneratorPage: NextPage = () => {
   const [routerName, setRouterName] = useState("myRouter");
+  const [middleware, setMiddleware] = useState(false);
   const [procedures, setProcedures] = useState<Procedure[]>([
     {
       id: 0,
@@ -182,6 +184,8 @@ const GeneratorPage: NextPage = () => {
           removeProcedure={removeProcedure}
           presetProcedures={presetProcedures}
           setPresetProcedure={setPresetProcedure}
+          middleware={middleware}
+          setMiddleware={setMiddleware}
         />
       </div>
       <div className="hidden w-full lg:block">
@@ -194,6 +198,8 @@ const GeneratorPage: NextPage = () => {
           setRouterName={setRouterName}
           presetProcedures={presetProcedures}
           setPresetProcedure={setPresetProcedure}
+          middleware={middleware}
+          setMiddleware={setMiddleware}
         />
       </div>
     </main>

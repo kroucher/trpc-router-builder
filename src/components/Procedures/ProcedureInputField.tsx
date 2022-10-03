@@ -44,7 +44,7 @@ const ProcedureInputField = ({
           </option>
         ))}
       </select>
-      {input.inputObject.type === "array" && (
+      {input.inputObject.type === "array" ? (
         <div className="flex flex-col">
           <span className="pt-2 text-sm font-light">Array of:</span>
           <div>
@@ -81,7 +81,154 @@ const ProcedureInputField = ({
             </select>
           </div>
         </div>
+      ) : null}
+      {input.inputObject.type === "object" && (
+        <div>
+          {/* inputs for key/value */}
+          <div className="flex w-full flex-col">
+            {input.inputObject.objectEntries?.map((object, j) => {
+              const key = object.key;
+              const value = object.value;
+              return (
+                <div
+                  key={j}
+                  className="relative my-1 flex flex-row rounded-lg border p-1"
+                >
+                  <div className="flex flex-col">
+                    <button
+                      name="Delete"
+                      title="Delete"
+                      className="absolute top-2 right-1 flex h-4 w-4 items-center justify-center rounded-full bg-red-300 text-xs text-black"
+                      onClick={() => {
+                        updateProcedure(procedure.id, {
+                          ...procedure,
+                          input: procedure.input?.map((input, k) => {
+                            if (k === i) {
+                              return {
+                                ...input,
+                                inputObject: {
+                                  ...input.inputObject,
+                                  objectEntries:
+                                    input.inputObject.objectEntries?.filter(
+                                      (object, l) => l !== j
+                                    ),
+                                },
+                              };
+                            }
+                            return input;
+                          }),
+                        });
+                      }}
+                    >
+                      -
+                    </button>
+                    <span className="pt-2 text-sm font-light">Name:</span>
+                    <input
+                      className="mt-2 mr-3 w-fit rounded bg-white px-2 py-1 text-xs capitalize text-black"
+                      value={key}
+                      onChange={(e) => {
+                        updateProcedure(procedure.id, {
+                          ...procedure,
+                          input: procedure.input?.map((input, k) => {
+                            if (k === i) {
+                              return {
+                                ...input,
+                                inputObject: {
+                                  ...input.inputObject,
+                                  objectEntries:
+                                    input.inputObject.objectEntries?.map(
+                                      (object, l) => {
+                                        if (l === j) {
+                                          return {
+                                            ...object,
+                                            key: e.target.value,
+                                          };
+                                        }
+                                        return object;
+                                      }
+                                    ),
+                                },
+                              };
+                            }
+                            return input;
+                          }),
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className="flex flex-col">
+                    <span className="pt-2 text-sm font-light">Value:</span>
+                    <select
+                      className="mt-2 w-fit rounded bg-white px-2 py-1 text-xs capitalize text-black"
+                      value={value}
+                      onChange={(e) => {
+                        updateProcedure(procedure.id, {
+                          ...procedure,
+                          input: procedure.input?.map((input, k) => {
+                            if (k === i) {
+                              return {
+                                ...input,
+                                inputObject: {
+                                  ...input.inputObject,
+                                  objectEntries:
+                                    input.inputObject.objectEntries?.map(
+                                      (object, l) => {
+                                        if (l === j) {
+                                          return {
+                                            ...object,
+                                            value: e.target.value,
+                                          };
+                                        }
+                                        return object;
+                                      }
+                                    ),
+                                },
+                              };
+                            }
+                            return input;
+                          }),
+                        });
+                      }}
+                    >
+                      {options.map((option) => (
+                        <option key={option} value={option}>
+                          {option}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          <button
+            className="mt-2 w-fit rounded bg-white px-2 py-1 text-xs capitalize text-black"
+            onClick={() => {
+              updateProcedure(procedure.id, {
+                ...procedure,
+                input: procedure.input?.map((input, j) => {
+                  if (j === i) {
+                    return {
+                      ...input,
+                      inputObject: {
+                        ...input.inputObject,
+                        objectEntries: [
+                          ...(input.inputObject.objectEntries ?? []),
+                          { key: "", value: "" },
+                        ],
+                      },
+                    };
+                  }
+                  return input;
+                }),
+              });
+            }}
+          >
+            Add key/value
+          </button>
+        </div>
       )}
+
       <button
         aria-label="Delete input"
         name="deleteInput"
@@ -101,32 +248,3 @@ const ProcedureInputField = ({
 };
 
 export default ProcedureInputField;
-
-// Language: typescript
-// Path: src/components/Procedures/ProcedureTextInput.tsx
-// Compare this snippet from src/utils/useCodeGenerator.tsx:
-// import { Procedure } from "../pages/generator";
-//
-// const procedureInput = (title: string, type: string) => {
-//   switch (type) {
-//     case "string":
-//       return {
-//         result: `z.string()`,
-//       };
-//     case "number":
-//       return {
-//         result: `z.number()`,
-//       };
-//     case "boolean":
-//       return {
-//         result: `z.boolean()`,
-//       };
-//     case "array":
-//       return {
-//         result: `z.array()`,
-//       };
-//     case "object":
-//       return {
-//         result: `z.object()`,
-//       };
-//

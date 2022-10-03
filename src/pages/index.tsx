@@ -11,7 +11,7 @@ const Home: NextPage = () => {
       </Head>
 
       <main className="flex min-h-screen flex-col items-center justify-center bg-slate-900 py-2 text-white">
-        <h1 className="text-6xl font-bold ">tRPC Router Builder</h1>
+        <h1 className="text-center text-6xl font-bold">tRPC Router Builder</h1>
 
         <p className="mt-3 text-2xl">Generate v10 tRPC routers</p>
 

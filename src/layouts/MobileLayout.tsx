@@ -17,6 +17,8 @@ const MobileLayout = ({
   removeProcedure,
   presetProcedures,
   setPresetProcedure,
+  middleware,
+  setMiddleware,
 }: {
   routerName: string;
   setRouterName: (routerName: string) => void;
@@ -26,6 +28,8 @@ const MobileLayout = ({
   removeProcedure: (id: number) => void;
   presetProcedures: PresetProcedure[];
   setPresetProcedure: (procedure: PresetProcedure) => void;
+  middleware: boolean;
+  setMiddleware: (middleware: boolean) => void;
 }) => {
   return (
     <Tab.Group>
@@ -68,10 +72,16 @@ const MobileLayout = ({
             removeProcedure={removeProcedure}
             presetProcedures={presetProcedures}
             setPresetProcedure={setPresetProcedure}
+            middleware={middleware}
+            setMiddleware={setMiddleware}
           />
         </Tab.Panel>
         <Tab.Panel>
-          <CodePreview routerName={routerName} procedures={procedures} />{" "}
+          <CodePreview
+            routerName={routerName}
+            procedures={procedures}
+            middleware={middleware}
+          />{" "}
         </Tab.Panel>
       </Tab.Panels>
     </Tab.Group>

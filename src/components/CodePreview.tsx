@@ -6,9 +6,11 @@ import { Procedure } from "../pages/generator";
 const CodePreview = ({
   routerName,
   procedures,
+  middleware,
 }: {
   routerName: string;
   procedures: Procedure[];
+  middleware: boolean;
 }) => {
   return (
     <div className="relative mx-2 flex basis-1/2 flex-col items-start justify-start overflow-hidden rounded-md border lg:mr-6">
@@ -21,14 +23,14 @@ const CodePreview = ({
         wrapLines={true}
         className="mt-2 min-h-[50.2vh] w-full rounded-md px-4 py-2 text-sm"
       >
-        {generateCode({ routerName, procedures })}
+        {generateCode({ routerName, procedures, middleware })}
       </SyntaxHighlighter>
       <button
         id="copy-button"
         className="absolute top-12 right-12 rounded bg-blue-500/60 px-2 py-1 text-sm text-white"
         onClick={() => {
           navigator.clipboard.writeText(
-            generateCode({ routerName, procedures })
+            generateCode({ routerName, procedures, middleware })
           );
           setTimeout(() => {
             document

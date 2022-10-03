@@ -1,3 +1,4 @@
+import { Switch } from "@headlessui/react";
 import { PresetProcedure, Procedure } from "../pages/generator";
 import PresetDropdown from "./Procedures/PresetDropdown";
 import Procedures from "./Procedures/Procedures";
@@ -11,6 +12,8 @@ const RouterGenerator = ({
   removeProcedure,
   presetProcedures,
   setPresetProcedure,
+  middleware,
+  setMiddleware,
 }: {
   routerName: string;
   setRouterName: (routerName: string) => void;
@@ -20,6 +23,8 @@ const RouterGenerator = ({
   removeProcedure: (id: number) => void;
   presetProcedures: PresetProcedure[];
   setPresetProcedure: (procedure: PresetProcedure) => void;
+  middleware: boolean;
+  setMiddleware: (middleware: boolean) => void;
 }) => {
   return (
     <div className="flex w-full flex-col items-start justify-start px-6 lg:basis-1/2">
@@ -35,7 +40,22 @@ const RouterGenerator = ({
         value={routerName}
         onChange={(e) => setRouterName(e.target.value)}
       />
-      {/* add procedure */}
+      <div className="flex items-center pt-6">
+        <span className="mr-3 text-sm">Middleware?</span>
+        <Switch
+          checked={middleware}
+          onChange={setMiddleware}
+          className={`${middleware ? "bg-slate-200" : "bg-slate-500"}
+          relative inline-flex h-5 w-10 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
+        >
+          <span className="sr-only">Use setting</span>
+          <span
+            aria-hidden="true"
+            className={`${middleware ? "translate-x-5" : "translate-x-0"}
+            pointer-events-none inline-block h-4 w-4 transform rounded-full bg-slate-900 shadow-lg ring-0 transition duration-200 ease-in-out`}
+          />
+        </Switch>
+      </div>
       <div className="mt-4 flex w-full flex-col items-start justify-start">
         <div className="flex w-full items-center justify-between">
           <h1 className="py-1 text-lg font-bold ">Procedures</h1>
