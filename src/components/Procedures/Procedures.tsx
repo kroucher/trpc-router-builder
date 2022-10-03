@@ -73,7 +73,7 @@ const Procedures = ({
                   updateProcedure(procedure.id, {
                     ...procedure,
                     input: [
-                      ...(procedure.input as Input[]),
+                      ...(procedure.input || []),
                       {
                         id: procedure.input?.length || 0,
                         inputObject: {

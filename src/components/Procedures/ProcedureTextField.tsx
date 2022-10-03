@@ -41,6 +41,11 @@ const ProcedureTextInput = ({
           })
         }
       />
+      {purpose === "name" && !isUnique && (
+        <span className="absolute right-0 bottom-2 text-xs text-red-200">
+          Must be unique
+        </span>
+      )}
       <label
         htmlFor={title}
         className={`peer absolute top-0 cursor-text select-none py-1 text-xs antialiased transition-all ease-in peer-placeholder-shown:bottom-0 peer-placeholder-shown:left-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-empty:left-0 peer-placeholder-shown:peer-empty:translate-y-4 peer-focus:text-xs peer-focus:text-white peer-focus:opacity-100 peer-focus:peer-empty:peer-placeholder-shown:-translate-y-0.5`}
