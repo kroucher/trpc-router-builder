@@ -64,6 +64,7 @@ import { z } from "zod";
 import { initTRPC } from '@trpc/server';
 
 export const t = initTRPC.create();
+
 `;
 
   const middlware = `
