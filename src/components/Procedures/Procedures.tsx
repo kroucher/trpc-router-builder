@@ -65,10 +65,10 @@ const Procedures = ({
               purpose="type"
               options={["query", "mutation", "subscription"]}
             />
-            <div className="relative flex w-fit items-center justify-start space-x-3">
+            <div className="relative flex w-full max-w-xs items-center justify-between space-x-3 border-b border-dashed border-white pb-2">
               <span>Inputs</span>
               <button
-                className={`mt-2 mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-white text-black`}
+                className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-green-300 text-black`}
                 onClick={() => {
                   updateProcedure(procedure.id, {
                     ...procedure,
@@ -95,12 +95,10 @@ const Procedures = ({
               return (
                 <ProcedureInputField
                   key={i}
-                  title={input.inputObject.type}
                   procedure={procedure}
-                  purpose="input"
                   i={i}
                   updateProcedure={updateProcedure}
-                  options={["string", "number", "boolean"]}
+                  options={["string", "number", "boolean", "array", "object"]}
                   input={input}
                 />
               );

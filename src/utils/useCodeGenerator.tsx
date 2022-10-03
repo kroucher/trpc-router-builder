@@ -1,5 +1,44 @@
 import { Procedure } from "../pages/generator";
 
+const procedureInput = (
+  title: string,
+  type: string,
+  arrayOf?: string
+): { result: string } => {
+  switch (type) {
+    case "string":
+      return {
+        result: `z.string()`,
+      };
+    case "number":
+      return {
+        result: `z.number()`,
+      };
+    case "boolean":
+      return {
+        result: `z.boolean()`,
+      };
+    case "array":
+      if (arrayOf) {
+        return {
+          result: `z.array(${procedureInput(title, arrayOf).result})`,
+        };
+      } else {
+        return {
+          result: `z.array(z.string())`,
+        };
+      }
+    case "object":
+      return {
+        result: `z.object()`,
+      };
+    default:
+      return {
+        result: `z.string()`,
+      };
+  }
+};
+
 export const generateCode = ({
   routerName,
   procedures,
@@ -18,29 +57,11 @@ export const generateCode = ({
                           ? p.input
                               .map(
                                 (i) =>
-                                  `${i.title}: ${
-                                    i.inputObject.type === "string"
-                                      ? `z.string()${
-                                          i.inputObject.required
-                                            ? ""
-                                            : ".nullable()"
-                                        }`
-                                      : i.inputObject.type === "number"
-                                      ? `z.number()${
-                                          i.inputObject.required
-                                            ? ""
-                                            : ".nullable()"
-                                        }`
-                                      : i.inputObject.type === "boolean"
-                                      ? `z.boolean()${
-                                          i.inputObject.required
-                                            ? ""
-                                            : ".nullable()"
-                                        }`
-                                      : i.inputObject.type === "date"
-                                      ? "z.date()"
-                                      : "z.string()"
-                                  }`
+                                  procedureInput(
+                                    i.title,
+                                    i.inputObject.type,
+                                    i.inputObject?.arrayOf
+                                  ).result
                               )
                               .join(",\n                      ")
                           : ""

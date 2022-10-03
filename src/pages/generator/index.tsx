@@ -1,9 +1,9 @@
 import { NextPage } from "next";
 import { useState } from "react";
-import Procedures from "../../components/Procedures/Procedures";
-import SyntaxHighlighter from "react-syntax-highlighter";
-import { nightOwl } from "react-syntax-highlighter/dist/cjs/styles/hljs";
-import { generateCode } from "../../utils/useCodeGenerator";
+import CodePreview from "../../components/CodePreview";
+import RouterGenerator from "../../components/RouterGenerator";
+import DesktopLayout from "../../layouts/DesktopLayout";
+import MobileLayout from "../../layouts/MobileLayout";
 
 export type QueryTypes = "query" | "mutation" | "subscription";
 export type Procedure = {
@@ -26,6 +26,7 @@ export type InputObject = {
   required?: boolean;
   optional?: boolean;
   typeRequirements?: TypeRequirement[];
+  arrayOf?: string;
 };
 
 export type TypeRequirement = {
@@ -105,69 +106,25 @@ const GeneratorPage: NextPage = () => {
 
   return (
     <main className="flex min-h-screen items-start justify-center bg-slate-900 py-2 text-white ">
-      {/* selections */}
-      <div className="flex w-full basis-1/2 flex-col items-start justify-start px-6">
-        <h1 className="py-1 text-lg font-bold ">Router Name</h1>
-        <input
-          className="mt-2 w-full rounded bg-white px-4 py-2 text-black"
-          value={routerName}
-          onChange={(e) => setRouterName(e.target.value)}
+      <div className="w-full lg:hidden">
+        <MobileLayout
+          routerName={routerName}
+          procedures={procedures}
+          setRouterName={setRouterName}
+          addProcedure={addProcedure}
+          updateProcedure={updateProcedure}
+          removeProcedure={removeProcedure}
         />
-        {/* add procedure */}
-        <div className="mt-4 flex w-full flex-col items-start justify-start">
-          <div className="flex w-full items-center justify-between">
-            <h1 className="py-1 text-lg font-bold ">Procedures</h1>
-            <button
-              className="ml-2 rounded bg-blue-500 px-2 py-1 text-sm text-white"
-              onClick={addProcedure}
-            >
-              Add
-            </button>
-          </div>
-          <Procedures
-            procedures={procedures}
-            updateProcedure={updateProcedure}
-            removeProcedure={removeProcedure}
-          />
-        </div>
       </div>
-      {/* code */}
-      <div className="relative mx-auto flex basis-1/2 flex-col items-start justify-start rounded-md px-8">
-        <h1 className="py-1 text-lg font-bold ">Generated Code</h1>
-        <SyntaxHighlighter
-          language="javascript"
-          style={nightOwl}
-          className="mt-2 h-[90vh] w-full rounded-md px-4 py-2 text-sm"
-        >
-          {generateCode({ routerName, procedures })}
-        </SyntaxHighlighter>
-        {/* <textarea
-          className="mt-2 h-[90vh] w-full rounded-md bg-white px-4 py-2 text-black"
-          value={generateCode({ routerName, procedures })}
-          readOnly
-        /> */}
-        {/* copy to clipboard button */}
-        <button
-          id="copy-button"
-          className="absolute top-16 right-16 rounded bg-blue-500 px-4 py-2 text-white"
-          onClick={() => {
-            navigator.clipboard.writeText(
-              generateCode({ routerName, procedures })
-            );
-            setTimeout(() => {
-              document
-                .getElementById("copy-button")
-                ?.classList.add("bg-green-500");
-            }, 100);
-            setTimeout(() => {
-              document
-                .getElementById("copy-button")
-                ?.classList.remove("bg-green-500");
-            }, 1000);
-          }}
-        >
-          Copy
-        </button>
+      <div className="hidden w-full lg:block">
+        <DesktopLayout
+          routerName={routerName}
+          procedures={procedures}
+          addProcedure={addProcedure}
+          updateProcedure={updateProcedure}
+          removeProcedure={removeProcedure}
+          setRouterName={setRouterName}
+        />
       </div>
     </main>
   );

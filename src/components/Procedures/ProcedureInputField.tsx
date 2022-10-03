@@ -5,23 +5,17 @@ const ProcedureInputField = ({
   procedure,
   i,
   updateProcedure,
-  title,
-  purpose,
-  isUnique,
   input,
   options,
 }: {
   procedure: Procedure;
   i: number;
   updateProcedure: (i: number, procedure: Procedure) => void;
-  title: string;
-  purpose: string;
-  isUnique?: boolean;
   input: Input;
   options: string[];
 }) => {
   return (
-    <div className="relative w-full">
+    <div className="relative w-full max-w-xs border-b border-dashed border-white pb-4">
       <h1 className="py-1 text-sm font-light">Input #{i + 1}</h1>
       <select
         className="mt-2 w-full max-w-xs rounded bg-white px-2 py-1 text-xs capitalize text-black"
@@ -50,74 +44,23 @@ const ProcedureInputField = ({
           </option>
         ))}
       </select>
-      <div className="absolute top-0 right-0">
-        <button
-          className={`flex h-4 w-4 items-center justify-center rounded-full bg-white text-black`}
-          onClick={() => {
-            updateProcedure(procedure.id, {
-              ...procedure,
-              input: procedure.input?.filter((input, j) => j !== i),
-            });
-          }}
-        >
-          -
-        </button>
-      </div>
-      <span>Requirements</span>
-      <div>
-        <h1 className="py-1 text-sm font-light">Required</h1>
-        <input
-          className="mt-2 h-4 w-4 rounded bg-white text-black"
-          type="checkbox"
-          checked={input.inputObject.required}
-          onChange={(e) => {
-            updateProcedure(procedure.id, {
-              ...procedure,
-              input: procedure.input?.map((input, j) => {
-                if (j === i) {
-                  return {
-                    ...input,
-                    inputObject: {
-                      ...input.inputObject,
-                      required: e.target.checked,
-                    },
-                  };
-                }
-                return input;
-              }),
-            });
-          }}
-        />
-      </div>
-      {input.inputObject.typeRequirements?.map((typeRequirement, j) => {
-        return (
-          <div key={j}>
-            <h1 className="py-1 text-sm font-light">{typeRequirement.name}</h1>
-            <input
-              className="mt-2 h-4 w-4 rounded bg-white text-black"
-              type="checkbox"
-              checked={typeRequirement.enabled}
+      {input.inputObject.type === "array" && (
+        <div className="flex flex-col">
+          <span className="pt-2 text-sm font-light">Array of:</span>
+          <div>
+            <select
+              className="mt-2 w-fit rounded bg-white px-2 py-1 text-xs capitalize text-black"
+              value={input.inputObject.arrayOf}
               onChange={(e) => {
                 updateProcedure(procedure.id, {
                   ...procedure,
-                  input: procedure.input?.map((input, k) => {
-                    if (k === i) {
+                  input: procedure.input?.map((input, j) => {
+                    if (j === i) {
                       return {
                         ...input,
                         inputObject: {
                           ...input.inputObject,
-                          typeRequirements:
-                            input.inputObject.typeRequirements?.map(
-                              (typeRequirement, l) => {
-                                if (l === j) {
-                                  return {
-                                    ...typeRequirement,
-                                    enabled: e.target.checked,
-                                  };
-                                }
-                                return typeRequirement;
-                              }
-                            ),
+                          arrayOf: e.target.value,
                         },
                       };
                     }
@@ -125,12 +68,62 @@ const ProcedureInputField = ({
                   }),
                 });
               }}
-            />
+            >
+              {options.map((option) => {
+                if (option === "array") return null;
+                if (option === "object") return null;
+                return (
+                  <option key={option} value={option}>
+                    {option}s
+                  </option>
+                );
+              })}
+            </select>
           </div>
-        );
-      })}
+        </div>
+      )}
+      <button
+        className={`absolute -right-2 top-0 mt-2 mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-300 text-black`}
+        onClick={() => {
+          updateProcedure(procedure.id, {
+            ...procedure,
+            input: procedure.input?.filter((_, j) => j !== i),
+          });
+        }}
+      >
+        -
+      </button>
     </div>
   );
 };
 
 export default ProcedureInputField;
+
+// Language: typescript
+// Path: src/components/Procedures/ProcedureTextInput.tsx
+// Compare this snippet from src/utils/useCodeGenerator.tsx:
+// import { Procedure } from "../pages/generator";
+//
+// const procedureInput = (title: string, type: string) => {
+//   switch (type) {
+//     case "string":
+//       return {
+//         result: `z.string()`,
+//       };
+//     case "number":
+//       return {
+//         result: `z.number()`,
+//       };
+//     case "boolean":
+//       return {
+//         result: `z.boolean()`,
+//       };
+//     case "array":
+//       return {
+//         result: `z.array()`,
+//       };
+//     case "object":
+//       return {
+//         result: `z.object()`,
+//       };
+//
