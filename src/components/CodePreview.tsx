@@ -19,7 +19,7 @@ const CodePreview = ({
         language="javascript"
         style={nightOwl}
         wrapLines={true}
-        className="mt-2 min-h-[50vh] w-full rounded-md px-4 py-2 text-sm"
+        className="mt-2 min-h-[50.2vh] w-full rounded-md px-4 py-2 text-sm"
       >
         {generateCode({ routerName, procedures })}
       </SyntaxHighlighter>

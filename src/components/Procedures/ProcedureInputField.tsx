@@ -15,7 +15,7 @@ const ProcedureInputField = ({
   options: string[];
 }) => {
   return (
-    <div className="relative w-full max-w-sm border-b border-dashed border-white pb-4">
+    <div className="relative w-full max-w-sm  pb-4">
       <h1 className="py-1 text-sm font-light">Input #{i + 1}</h1>
       <select
         className="mt-2 w-full max-w-sm rounded bg-white px-2 py-1 text-xs capitalize text-black"
@@ -83,7 +83,10 @@ const ProcedureInputField = ({
         </div>
       )}
       <button
-        className={`absolute -right-2 top-0 mt-2 mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-red-300 text-black`}
+        aria-label="Delete input"
+        name="deleteInput"
+        title="Delete Input"
+        className={`absolute -right-2 top-0 mt-2 mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-red-300 pb-0.5 text-black`}
         onClick={() => {
           updateProcedure(procedure.id, {
             ...procedure,

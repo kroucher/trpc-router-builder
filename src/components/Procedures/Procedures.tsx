@@ -22,7 +22,7 @@ const Procedures = ({
         return (
           <div
             key={i}
-            className="flex w-full flex-col items-start justify-start space-y-3 rounded-md border px-2 pt-1 pb-4"
+            className="flex w-full flex-col items-start justify-start space-y-3 rounded-md border p-3 pb-6"
           >
             <div className="flex w-full flex-row-reverse items-start justify-between">
               <button
@@ -65,10 +65,14 @@ const Procedures = ({
               purpose="type"
               options={["query", "mutation", "subscription"]}
             />
-            <div className="relative flex w-full max-w-sm items-center justify-between space-x-3 border-b border-dashed border-white pb-2">
+
+            <div className="relative flex w-full max-w-sm items-center justify-between space-x-3 pb-2">
               <span className="text-sm">Inputs</span>
               <button
-                className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-green-300 text-black`}
+                aria-label="Add Input"
+                name="deleteInput"
+                title="Add Input"
+                className={`mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-300 pb-0.5 text-black`}
                 onClick={() => {
                   updateProcedure(procedure.id, {
                     ...procedure,
@@ -80,7 +84,7 @@ const Procedures = ({
                           type: "string",
                           required: true,
                         },
-                        title: "Input",
+                        title: "input",
                         purpose: "input",
                       },
                     ],
@@ -93,23 +97,34 @@ const Procedures = ({
 
             {procedure.input?.map((input, i) => {
               return (
-                <ProcedureInputField
-                  key={i}
-                  procedure={procedure}
-                  i={i}
-                  updateProcedure={updateProcedure}
-                  options={["string", "number", "boolean", "array", "object"]}
-                  input={input}
-                />
+                <>
+                  <div className="flex w-full max-w-sm flex-col items-start justify-start space-y-2 rounded-md border-y border-dashed border-white px-2 pb-4">
+                    <ProcedureInputField
+                      key={i}
+                      procedure={procedure}
+                      i={i}
+                      updateProcedure={updateProcedure}
+                      options={[
+                        "string",
+                        "number",
+                        "boolean",
+                        "array",
+                        "object",
+                      ]}
+                      input={input}
+                    />
+                    <ProcedureTextInput
+                      procedure={procedure}
+                      i={i}
+                      updateProcedure={updateProcedure}
+                      title={`Input Name`}
+                      purpose="typeName"
+                      isUnique={isUnique}
+                    />
+                  </div>
+                </>
               );
             })}
-            {/* <ProcedureTextInput
-              title="Output"
-              purpose="output"
-              procedure={procedure}
-              i={i}
-              updateProcedure={updateProcedure}
-            /> */}
             <div className="mt-2 flex items-center justify-start">
               <h1 className="py-1 text-sm font-bold ">Async</h1>
               <input
