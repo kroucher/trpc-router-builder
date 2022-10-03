@@ -11,8 +11,10 @@ const CodePreview = ({
   procedures: Procedure[];
 }) => {
   return (
-    <div className="relative mx-auto flex basis-1/2 flex-col items-start justify-start rounded-md px-8">
-      <h1 className="py-1 text-lg font-bold ">Generated Code</h1>
+    <div className="relative mx-2 flex basis-1/2 flex-col items-start justify-start overflow-hidden rounded-md border lg:mr-6">
+      <div className="mb-2 w-full bg-slate-700 pt-2 pb-1 text-lg font-bold">
+        <h1 className="pl-4">Generated Code</h1>
+      </div>
       <SyntaxHighlighter
         language="javascript"
         style={nightOwl}
@@ -31,12 +33,12 @@ const CodePreview = ({
           setTimeout(() => {
             document
               .getElementById("copy-button")
-              ?.classList.add("bg-green-500");
+              ?.classList.replace("bg-blue-500/60", "bg-green-500/60");
           }, 100);
           setTimeout(() => {
             document
               .getElementById("copy-button")
-              ?.classList.remove("bg-green-500");
+              ?.classList.replace("bg-green-500/60", "bg-blue-500/60");
           }, 1000);
         }}
       >

@@ -43,6 +43,12 @@ export type TypeRequirementOption =
   | "minDate"
   | "maxDate";
 
+export type PresetProcedure = {
+  id: number;
+  name: string;
+  procedure: Procedure;
+};
+
 const GeneratorPage: NextPage = () => {
   const [routerName, setRouterName] = useState("myRouter");
   const [procedures, setProcedures] = useState<Procedure[]>([
@@ -65,6 +71,66 @@ const GeneratorPage: NextPage = () => {
       async: false,
     },
   ]);
+
+  const presetProcedures = [
+    {
+      id: 0,
+      name: "Infinite Query",
+      procedure: {
+        id: 0,
+        type: "query",
+        name: "infiniteQuery",
+        input: [
+          {
+            id: 0,
+            inputObject: {
+              type: "string",
+              required: true,
+            },
+            title: "pageSize",
+            purpose: "input",
+          },
+          {
+            id: 1,
+            inputObject: {
+              type: "string",
+              required: false,
+            },
+            title: "cursor",
+            purpose: "input",
+          },
+        ],
+        output: "z.string()",
+        async: false,
+      } as Procedure,
+    },
+    {
+      id: 1,
+      name: "Reset All Procedures",
+      procedure: {
+        id: 0,
+        type: "query",
+        name: "input",
+        input: [
+          {
+            id: 0,
+            inputObject: {
+              type: "string",
+              required: true,
+            },
+            title: "input",
+            purpose: "input",
+          },
+        ],
+        output: "z.string()",
+        async: false,
+      } as Procedure,
+    },
+  ];
+
+  const setPresetProcedure = (procedure: PresetProcedure) => {
+    setProcedures([procedure.procedure]);
+  };
 
   const addProcedure = () => {
     setProcedures((prev) => [
@@ -114,6 +180,8 @@ const GeneratorPage: NextPage = () => {
           addProcedure={addProcedure}
           updateProcedure={updateProcedure}
           removeProcedure={removeProcedure}
+          presetProcedures={presetProcedures}
+          setPresetProcedure={setPresetProcedure}
         />
       </div>
       <div className="hidden w-full lg:block">
@@ -124,6 +192,8 @@ const GeneratorPage: NextPage = () => {
           updateProcedure={updateProcedure}
           removeProcedure={removeProcedure}
           setRouterName={setRouterName}
+          presetProcedures={presetProcedures}
+          setPresetProcedure={setPresetProcedure}
         />
       </div>
     </main>

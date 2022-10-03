@@ -1,4 +1,5 @@
-import { Procedure } from "../pages/generator";
+import { PresetProcedure, Procedure } from "../pages/generator";
+import PresetDropdown from "./Procedures/PresetDropdown";
 import Procedures from "./Procedures/Procedures";
 
 const RouterGenerator = ({
@@ -8,6 +9,8 @@ const RouterGenerator = ({
   procedures,
   updateProcedure,
   removeProcedure,
+  presetProcedures,
+  setPresetProcedure,
 }: {
   routerName: string;
   setRouterName: (routerName: string) => void;
@@ -15,12 +18,20 @@ const RouterGenerator = ({
   procedures: Procedure[];
   updateProcedure: (id: number, procedure: Procedure) => void;
   removeProcedure: (id: number) => void;
+  presetProcedures: PresetProcedure[];
+  setPresetProcedure: (procedure: PresetProcedure) => void;
 }) => {
   return (
     <div className="flex w-full flex-col items-start justify-start px-6 lg:basis-1/2">
-      <h1 className="py-1 text-lg font-bold ">Router Name</h1>
+      <div className="flex w-full items-end justify-between lg:items-center">
+        <h1 className="py-1 text-sm font-bold lg:text-lg ">Router Name</h1>
+        <PresetDropdown
+          presetProcedures={presetProcedures}
+          setPresetProcedure={setPresetProcedure}
+        />
+      </div>
       <input
-        className="mt-2 w-full rounded bg-white px-4 py-2 text-black"
+        className="mt-2 w-full max-w-sm rounded bg-white px-2 py-1 text-sm text-black"
         value={routerName}
         onChange={(e) => setRouterName(e.target.value)}
       />

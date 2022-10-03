@@ -22,7 +22,7 @@ const Procedures = ({
         return (
           <div
             key={i}
-            className="flex w-full flex-col items-start justify-start space-y-3 rounded-md border px-2 py-1"
+            className="flex w-full flex-col items-start justify-start space-y-3 rounded-md border px-2 pt-1 pb-4"
           >
             <div className="flex w-full flex-row-reverse items-start justify-between">
               <button
@@ -65,8 +65,8 @@ const Procedures = ({
               purpose="type"
               options={["query", "mutation", "subscription"]}
             />
-            <div className="relative flex w-full max-w-xs items-center justify-between space-x-3 border-b border-dashed border-white pb-2">
-              <span>Inputs</span>
+            <div className="relative flex w-full max-w-sm items-center justify-between space-x-3 border-b border-dashed border-white pb-2">
+              <span className="text-sm">Inputs</span>
               <button
                 className={`mr-2 flex h-4 w-4 items-center justify-center rounded-full bg-green-300 text-black`}
                 onClick={() => {
@@ -103,13 +103,13 @@ const Procedures = ({
                 />
               );
             })}
-            <ProcedureTextInput
+            {/* <ProcedureTextInput
               title="Output"
               purpose="output"
               procedure={procedure}
               i={i}
               updateProcedure={updateProcedure}
-            />
+            /> */}
             <div className="mt-2 flex items-center justify-start">
               <h1 className="py-1 text-sm font-bold ">Async</h1>
               <input

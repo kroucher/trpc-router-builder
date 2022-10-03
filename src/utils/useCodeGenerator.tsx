@@ -57,6 +57,7 @@ export const generateCode = ({
                           ? p.input
                               .map(
                                 (i) =>
+                                  `${i.title}: ` +
                                   procedureInput(
                                     i.title,
                                     i.inputObject.type,

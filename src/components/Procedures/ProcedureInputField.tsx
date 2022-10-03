@@ -15,10 +15,10 @@ const ProcedureInputField = ({
   options: string[];
 }) => {
   return (
-    <div className="relative w-full max-w-xs border-b border-dashed border-white pb-4">
+    <div className="relative w-full max-w-sm border-b border-dashed border-white pb-4">
       <h1 className="py-1 text-sm font-light">Input #{i + 1}</h1>
       <select
-        className="mt-2 w-full max-w-xs rounded bg-white px-2 py-1 text-xs capitalize text-black"
+        className="mt-2 w-full max-w-sm rounded bg-white px-2 py-1 text-xs capitalize text-black"
         value={input.inputObject.type}
         onChange={(e) => {
           updateProcedure(procedure.id, {

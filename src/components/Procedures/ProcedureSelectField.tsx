@@ -21,9 +21,9 @@ const ProcedureSelectInput = ({
   }
   return (
     <>
-      <h1 className="py-1 text-sm font-light">{title}</h1>
+      <h1 className="pt-1 text-sm font-light">{title}</h1>
       <select
-        className="mt-2 w-full max-w-xs rounded bg-white px-2 py-1 text-xs capitalize text-black"
+        className="w-full max-w-sm rounded bg-white px-2 py-1 text-xs capitalize text-black"
         value={inputValue}
         onChange={(e) => {
           updateProcedure(i, {

@@ -2,7 +2,7 @@ import { Tab } from "@headlessui/react";
 import { ReactNode } from "react";
 import CodePreview from "../components/CodePreview";
 import RouterGenerator from "../components/RouterGenerator";
-import { Procedure } from "../pages/generator";
+import { PresetProcedure, Procedure } from "../pages/generator";
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(" ");
@@ -15,6 +15,8 @@ const MobileLayout = ({
   procedures,
   updateProcedure,
   removeProcedure,
+  presetProcedures,
+  setPresetProcedure,
 }: {
   routerName: string;
   setRouterName: (routerName: string) => void;
@@ -22,17 +24,19 @@ const MobileLayout = ({
   addProcedure: () => void;
   updateProcedure: (id: number, procedure: Procedure) => void;
   removeProcedure: (id: number) => void;
+  presetProcedures: PresetProcedure[];
+  setPresetProcedure: (procedure: PresetProcedure) => void;
 }) => {
   return (
     <Tab.Group>
-      <Tab.List className="flex items-center p-4">
+      <Tab.List className="mx-2 mb-4 flex items-center rounded-lg border p-1">
         <Tab
           className={({ selected }) =>
             classNames(
-              "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+              "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white",
               "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
               selected
-                ? "bg-white shadow"
+                ? "bg-slate-500 shadow"
                 : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
             )
           }
@@ -42,10 +46,10 @@ const MobileLayout = ({
         <Tab
           className={({ selected }) =>
             classNames(
-              "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-blue-700",
+              "w-full rounded-lg py-2.5 text-sm font-medium leading-5 text-white",
               "ring-white ring-opacity-60 ring-offset-2 ring-offset-blue-400 focus:outline-none focus:ring-2",
               selected
-                ? "bg-white shadow"
+                ? "bg-slate-500 shadow"
                 : "text-blue-100 hover:bg-white/[0.12] hover:text-white"
             )
           }
@@ -62,6 +66,8 @@ const MobileLayout = ({
             addProcedure={addProcedure}
             updateProcedure={updateProcedure}
             removeProcedure={removeProcedure}
+            presetProcedures={presetProcedures}
+            setPresetProcedure={setPresetProcedure}
           />
         </Tab.Panel>
         <Tab.Panel>

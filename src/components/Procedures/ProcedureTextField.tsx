@@ -26,10 +26,10 @@ const ProcedureTextInput = ({
   }
 
   return (
-    <div className="relative w-full max-w-xs">
+    <div className="relative w-full max-w-sm">
       <input
         id={title}
-        className={`peer my-2 w-full max-w-xs bg-transparent px-2 py-1 pt-4 text-sm text-white outline-none placeholder:text-transparent ${
+        className={`peer my-2 w-full max-w-sm bg-transparent px-2 py-1 pt-4 text-sm text-white outline-none placeholder:text-transparent ${
           purpose === "name" && !isUnique ? "border-b-2 border-red-500" : ""
         }`}
         value={inputValue}
@@ -48,7 +48,7 @@ const ProcedureTextInput = ({
       )}
       <label
         htmlFor={title}
-        className={`peer absolute top-0 cursor-text select-none py-1 text-xs antialiased transition-all ease-in peer-placeholder-shown:bottom-0 peer-placeholder-shown:left-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-empty:left-0 peer-placeholder-shown:peer-empty:translate-y-4 peer-focus:text-xs peer-focus:text-white peer-focus:opacity-100 peer-focus:peer-empty:peer-placeholder-shown:-translate-y-0.5`}
+        className={`peer absolute top-0 cursor-text select-none py-1 text-sm font-semibold antialiased transition-all ease-in peer-placeholder-shown:bottom-0 peer-placeholder-shown:left-2 peer-placeholder-shown:text-base peer-placeholder-shown:text-slate-500 peer-empty:left-0 peer-placeholder-shown:peer-empty:translate-y-4 peer-focus:text-xs peer-focus:text-white peer-focus:opacity-100 peer-focus:peer-empty:peer-placeholder-shown:-translate-y-0.5`}
       >
         {title}
       </label>
